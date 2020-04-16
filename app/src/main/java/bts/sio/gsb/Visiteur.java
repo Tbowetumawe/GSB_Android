@@ -2,49 +2,53 @@ package bts.sio.gsb;
 
 public class Visiteur {
 
-    int id = Integer.parseInt(null);
-    String nom = null;
-    String prenom = null;
-    String login = null;
-    String password = null;
+    private static int id = Integer.parseInt(null);
+    private static String nom = null;
+    private static String prenom = null;
+    private static String login = null;
+    private static String password = null;
 
     public Visiteur() {
     }
 
-    public int getId() {
+    public static int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public static void setId(int id) {
+        Visiteur.id = id;
     }
 
-    public String getNom() {
+    public static String getNom() {
         return nom;
     }
-    public void setName(String nom) {
-        this.nom = nom;
+
+    public static void setNom(String nom) {
+        Visiteur.nom = nom;
     }
 
-    public String getPrenom() {
+    public static String getPrenom() {
         return prenom;
     }
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+
+    public static void setPrenom(String prenom) {
+        Visiteur.prenom = prenom;
     }
 
-    public String getLogin() {
+    public static String getLogin() {
         return login;
     }
-    public void setRegion(String login) {
-        this.login = login;
+
+    public static void setLogin(String login) {
+        Visiteur.login = login;
     }
 
-    public String getPassword() {
+    public static String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public static void setPassword(String password) {
+        Visiteur.password = password;
     }
 }
+
