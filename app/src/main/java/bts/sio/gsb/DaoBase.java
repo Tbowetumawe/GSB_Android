@@ -25,7 +25,7 @@ public class DaoBase extends SQLiteOpenHelper {
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NOM + " TEXT NOT NULL, "
             + COL_PRENOM + " TEXT NOT NULL, " + COL_LOGIN + " TEXT NOT NULL, " + COL_PASSWORD + " TEXT );";
 
-    public DaoBase(Context context, String name, CursorFactory factory, int version) {
+    public DaoBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -43,14 +43,14 @@ public class DaoBase extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public void insertContact (String id, String nom, String prenom, String login,String password) {
+    public void addVisiteur (Visiteur visiteur) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues Values = new ContentValues();
 
-        Values.put("COL_NOM ", Visiteur.getNom());
-        Values.put("COL_PRENOM", Visiteur.getPrenom());
-        Values.put("COL_LOGIN", Visiteur.getLogin());
-        Values.put("COL_PASSWORD", Visiteur.getPassword());
+        Values.put("COL_NOM ", visiteur.getNom());
+        Values.put("COL_PRENOM", visiteur.getPrenom());
+        Values.put("COL_LOGIN", visiteur.getLogin());
+        Values.put("COL_PASSWORD", visiteur.getPassword());
         db.insert("Visiteur", null, Values);
         db.close();
     }
@@ -65,14 +65,12 @@ public class DaoBase extends SQLiteOpenHelper {
                 COL_PASSWORD
         };
 
-        String sortOrder =
-                COL_NOM + " ASC";
+        String sortOrder = COL_NOM + " ASC";
         List<Visiteur> VisiteurList = new ArrayList<Visiteur>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // query the Visiteur table
-        /**
+        /** query the Visiteur table
          * Here query function is used to fetch records from Visiteur table this function works like we use sql query.
          * SQL query equivalent to this query function is
          * SELECT Visiteur_id,Visiteur_name,Visiteur_email,Visiteur_password FROM Visiteur ORDER BY Visiteur_name;
@@ -88,7 +86,7 @@ public class DaoBase extends SQLiteOpenHelper {
         // Traversing through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Visiteur Visiteur = new Visiteur();
+                Visiteur Visiteur = new Visiteur(1,null,null,null,null);
                 Visiteur.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(COL_ID))));
                 Visiteur.setNom(cursor.getString(cursor.getColumnIndex(COL_NOM)));
                 Visiteur.setPrenom(cursor.getString(cursor.getColumnIndex(COL_PRENOM)));
@@ -126,4 +124,44 @@ public class DaoBase extends SQLiteOpenHelper {
                 new String[]{String.valueOf(Visiteur.getId())});
         db.close();
     }
+
+    public Visiteur Authenticate(Visiteur user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_VISITEUR,// Selecting Table
+                new String[]{COL_ID, COL_NOM, COL_PRENOM,COL_LOGIN,COL_PASSWORD},//Selecting columns want to query
+                COL_LOGIN + "=?",
+                new String[]{Visiteur.getLogin()},//Where clause
+                null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()&& cursor.getCount()>0) {
+            //if cursor has value then in user database there is user associated with this given email
+            Visiteur user1 = new Visiteur(cursor.getInt(0), cursor.getString(1), cursor.getString(2),cursor.getString(3), cursor.getString(4));
+
+            //Match both passwords check they are same or not
+            if (Visiteur.getPassword().equalsIgnoreCase(user1.getPassword())) {
+                return user1;
+            }
+        }
+
+        //if user password does not matches or there is no record with that email then return @false
+        return null;
+    }
+
+    public boolean loginExists(String login) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_VISITEUR,// Selecting Table
+                new String[]{COL_ID, COL_NOM, COL_PRENOM,COL_LOGIN,COL_PASSWORD},//Selecting columns want to query
+                COL_LOGIN + "=?",
+                new String[]{login},//Where clause
+                null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()&& cursor.getCount()>0) {
+            //if cursor has value then in user database there is user associated with this given email so return true
+            return true;
+        }
+
+        //if email does not exist return false
+        return false;
+    }
+
 }

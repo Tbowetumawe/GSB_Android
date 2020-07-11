@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">GSB</string>
+    <string name="app_name">Petit camer</string>
+    <string name="text_accounts">All Accounts</string>
+    <string name="hint_nom">Nom</string>
+    <string name="hint_prenom">Prenom</string>
+    <string name="hint_login">Login</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="text_login">Login</string>
+    <string name="text_register">Register</string>
+    <string name="error_message_nom">Enter Full surname</string>
+    <string name="error_message_prenom">Enter Full Name</string>
+    <string name="error_message_login">Enter Valid login</string>
+    <string name="error_message_password">Enter Password</string>
+    <string name="success_message">Registration Successful</string>
+    <string name="text_not_member">No account yet? Create one</string>
+    <string name="text_already_member">Already a member? Login</string>
+    <string name="error_login_exists">Email Already Exists</string>
+    <string name="error_password_match">Password Does Not Matches</string>
+    <string name="error_valid_email_password">Wrong Email or Password</string>
+    <string name="action_settings">Settings</string>
+    <string name="text_hello">Hello,</string>
+    <string name="text_title">GSB VISITEUR</string>
+    <string name="space">\u0020</string>
 </resources>

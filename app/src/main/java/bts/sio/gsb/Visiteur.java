@@ -8,7 +8,12 @@ public class Visiteur {
     private static String login = null;
     private static String password = null;
 
-    public Visiteur() {
+    public Visiteur(int id,String nom, String prenom, String login, String password   ) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.login = login;
+        this.password = password;
     }
 
     public static int getId() {
